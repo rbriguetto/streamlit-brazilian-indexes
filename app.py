@@ -29,7 +29,7 @@ def get_ipea_data(series_code):
 def get_insights(text_prompt, context):
     client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     response = client.chat.completions.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-mini-2024-07-18",
         messages=[
             {"role": "system", "content": context},
             {"role": "user", "content": text_prompt}
