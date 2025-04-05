@@ -27,15 +27,20 @@ def get_ipea_data(series_code):
 # Função para gerar insights com Gemini (com cache)
 @st.cache_data(ttl=86400)
 def get_insights(text_prompt):
-    print("Gerando insights com OpenAI...")
-    print(f"Prompt: {text_prompt}")
-
     model = genai.GenerativeModel("gemini-2.0-flash-lite-001")
     response = model.generate_content(text_prompt)
     return response.text
 
 # Interface Streamlit
 st.title("Análise de Correlação de Índices do IPEA")
+
+# Descrição da ferramenta
+st.markdown(
+    """
+    Esta ferramenta permite selecionar dois índices econômicos do IPEA, visualizar seus gráficos, calcular a correlação entre eles e obter insights gerados por inteligência artificial.
+    O objetivo é auxiliar na compreensão de relações econômicas entre diferentes indicadores.
+    """
+)
 
 # Obter lista de índices
 series_list = get_ipea_series()
