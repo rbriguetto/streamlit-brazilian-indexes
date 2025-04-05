@@ -27,6 +27,9 @@ def get_ipea_data(series_code):
 # Função para gerar insights com Gemini (com cache)
 @st.cache_data(ttl=86400)
 def get_insights(text_prompt):
+    print("Gerando insights com OpenAI...")
+    print(f"Prompt: {text_prompt}")
+
     model = genai.GenerativeModel("gemini-2.0-flash-lite-001")
     response = model.generate_content(text_prompt)
     return response.text
