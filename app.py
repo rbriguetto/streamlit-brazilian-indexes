@@ -45,7 +45,8 @@ description_map = dict(zip(series_list['CODE'], series_list['NAME']))
 preset_filters = {
     "Agregado M2 x IPCA": ("BM12_M2NCN12", "PRECOS12_IPCA12"),
     "Agregado M2 x IGP-M": ("BM12_M2NCN12", "IGP12_IGPM12"),
-    "Agregado M2 x INPC": ("BM12_M2NCN12", "PRECOS12_INPC12")
+    "Agregado M2 x INPC": ("BM12_M2NCN12", "PRECOS12_INPC12"),
+    "Agregado M2 x PIB": ("BM12_M2NCN12", "BM12_PIBAC12")
 }
 
 # Seleção de filtros pré-definidos
