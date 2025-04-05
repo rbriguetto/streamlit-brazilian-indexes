@@ -3,4 +3,4 @@ ipeadatapy
 pandas
 matplotlib
 seaborn
-openai
+google-generativeai
