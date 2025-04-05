@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import google.generativeai as genai
 import os
-from functools import lru_cache
 
 # Configurar API do Gemini
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -26,7 +25,7 @@ def get_ipea_data(series_code):
     return data.set_index('Date')
 
 # Função para gerar insights com Gemini (com cache)
-@lru_cache(maxsize=10)
+@st.cache_data(ttl=86400)
 def get_insights(text_prompt):
     model = genai.GenerativeModel("gemini-2.0-flash-lite-001")
     response = model.generate_content(text_prompt)
