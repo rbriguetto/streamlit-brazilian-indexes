@@ -14,6 +14,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @st.cache_data
 def get_ipea_series():
     series = ipea.list_series()
+    series = series[~series['NAME'].str.contains("INATIVA", case=False)]  # Filtrar séries inativas
     return series[['CODE', 'NAME']]
 
 # Função para buscar dados do IPEA
@@ -29,7 +30,7 @@ def get_ipea_data(series_code):
 def get_insights(text_prompt, context):
     client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     response = client.chat.completions.create(
-        model="gpt-4o-mini-2024-07-18",
+        model="gpt-4-turbo",
         messages=[
             {"role": "system", "content": context},
             {"role": "user", "content": text_prompt}
