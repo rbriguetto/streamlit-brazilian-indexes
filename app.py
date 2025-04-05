@@ -20,7 +20,6 @@ def get_ipea_series():
 @st.cache_data
 def get_ipea_data(series_code):
     data = ipea.timeseries(series_code)
-    print(data)
     data = data.iloc[:, [-1, 1]].rename(columns={data.columns[-1]: series_code, data.columns[1]: 'Date'})
     data['Date'] = pd.to_datetime(data['Date'])
     return data.set_index('Date')
@@ -55,12 +54,13 @@ if index1 and index2:
       st.error("Os índices selecionados devem ser diferentes.")
     else:
       # Obter dados
-      data1 = get_ipea_data("PRECOS12_IPCA12")
+      data1 = get_ipea_data(index1)
       data2 = get_ipea_data(index2)
+
+      print("indice1: ", index1, "indice2: ", index2)
       
       # Unir datasets pelo índice de data
       merged_data = pd.merge(data1, data2, left_index=True, right_index=True, how='inner')
-      print(merged_data)
       
       # Exibir gráfico de correlação
       st.subheader("Gráfico de Correlação")
