@@ -41,10 +41,21 @@ series_list = get_ipea_series()
 # Criar um dicionário para mapear código para nome
 description_map = dict(zip(series_list['CODE'], series_list['NAME']))
 
-# Seleção de índices na barra lateral
+# Filtros pré-definidos
+preset_filters = {
+    "Agregado M2 x IGP-M": ("BM12_M2NCN12", "IGP12_IGPM12"),
+    "Selic x IPCA": ("BMF12_TJOVER12", "PRECOS12_IPCAG12")
+}
+
+# Seleção de filtros pré-definidos
 st.sidebar.header("Configuração")
-index1 = st.sidebar.selectbox("Selecione o primeiro índice", series_list['CODE'], format_func=lambda x: f"{description_map[x]} ({x})")
-index2 = st.sidebar.selectbox("Selecione o segundo índice", series_list['CODE'], format_func=lambda x: f"{description_map[x]} ({x})")
+selected_preset = st.sidebar.selectbox("Selecione um filtro pré-definido", ["Personalizado"] + list(preset_filters.keys()))
+
+if selected_preset != "Personalizado":
+    index1, index2 = preset_filters[selected_preset]
+else:
+    index1 = st.sidebar.selectbox("Selecione o primeiro índice", series_list['CODE'], format_func=lambda x: f"{description_map[x]} ({x})")
+    index2 = st.sidebar.selectbox("Selecione o segundo índice", series_list['CODE'], format_func=lambda x: f"{description_map[x]} ({x})")
 
 # Validação para evitar seleção do mesmo índice
 if index1 == index2:
