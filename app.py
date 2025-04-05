@@ -20,7 +20,9 @@ def get_ipea_series():
 @st.cache_data
 def get_ipea_data(series_code):
     data = ipea.timeseries(series_code)
-    data = data.iloc[:, [-1, 0]].rename(columns={data.columns[-1]: series_code, data.columns[0]: 'Date'})
+    print(series_code)
+    print(data)
+    data = data.iloc[:, [-1, 1]].rename(columns={data.columns[-1]: series_code, data.columns[1]: 'Date'})
     data['Date'] = pd.to_datetime(data['Date'])
     return data.set_index('Date')
 
