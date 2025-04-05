@@ -63,13 +63,31 @@ data2 = get_ipea_data(index2)
 # Unir datasets pelo índice de data
 merged_data = pd.merge(data1, data2, left_index=True, right_index=True, how='inner')
 
+# Exibir gráfico do primeiro índice
+st.subheader(f"Gráfico do Índice {description_map[index1]} ({index1})")
+fig1, ax1 = plt.subplots()
+ax1.plot(data1.index, data1[index1], label=f"{description_map[index1]} ({index1})")
+ax1.set_xlabel("Data")
+ax1.set_ylabel("Valor")
+ax1.legend()
+st.pyplot(fig1)
+
+# Exibir gráfico do segundo índice
+st.subheader(f"Gráfico do Índice {description_map[index2]} ({index2})")
+fig2, ax2 = plt.subplots()
+ax2.plot(data2.index, data2[index2], label=f"{description_map[index2]} ({index2})")
+ax2.set_xlabel("Data")
+ax2.set_ylabel("Valor")
+ax2.legend()
+st.pyplot(fig2)
+
 # Exibir gráfico de correlação
 st.subheader("Gráfico de Correlação")
-fig, ax = plt.subplots()
-sns.scatterplot(x=merged_data[index1], y=merged_data[index2], ax=ax)
-ax.set_xlabel(f"{description_map[index1]} ({index1})")
-ax.set_ylabel(f"{description_map[index2]} ({index2})")
-st.pyplot(fig)
+fig3, ax3 = plt.subplots()
+sns.scatterplot(x=merged_data[index1], y=merged_data[index2], ax=ax3)
+ax3.set_xlabel(f"{description_map[index1]} ({index1})")
+ax3.set_ylabel(f"{description_map[index2]} ({index2})")
+st.pyplot(fig3)
 
 # Calcular coeficiente de correlação
 correlation = merged_data.corr().iloc[0, 1]
