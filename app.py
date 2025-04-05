@@ -27,9 +27,9 @@ def get_ipea_data(series_code):
 
 # Função para gerar insights com Gemini (com cache)
 @lru_cache(maxsize=10)
-def get_insights(text_prompt, context):
+def get_insights(text_prompt):
     model = genai.GenerativeModel("gemini-2.0-flash-lite-001")
-    response = model.generate_content(f"{context}\n{text_prompt}")
+    response = model.generate_content(text_prompt)
     return response.text
 
 # Interface Streamlit
@@ -106,8 +106,7 @@ st.markdown(f"### Coeficiente de correlação: **{correlation:.2f}**")
 
 # Gerar insights com Gemini
 if st.button("Gerar Insights com IA"):
-    context = f"Você é um economista especialista em análise de dados. Os índices analisados são: {description_map[index1]} ({index1}) e {description_map[index2]} ({index2}). Dados utilizados:\n{merged_data.tail(10).to_string()}\nPara cada índice, forneça uma breve descrição sobre seu significado e impacto econômico antes de analisar a correlação."
     prompt = f"A correlação entre os índices {description_map[index1]} ({index1}) e {description_map[index2]} ({index2}) foi de {correlation:.2f}. O que isso pode indicar economicamente?"
-    insight = get_insights(prompt, context)
+    insight = get_insights(prompt)
     st.subheader("Insights da IA")
     st.write(insight)
