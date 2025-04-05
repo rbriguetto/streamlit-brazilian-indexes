@@ -29,12 +29,14 @@ def get_ipea_data(series_code):
 # Função para gerar insights com OpenAI (com cache)
 @lru_cache(maxsize=10)
 def get_insights(text_prompt):
-    response = openai.ChatCompletion.create(
+    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+    response = client.chat.completions.create(
         model="gpt-4-turbo",
         messages=[{"role": "system", "content": "Você é um economista especialista em análise de dados."},
                   {"role": "user", "content": text_prompt}]
     )
-    return response['choices'][0]['message']['content']
+    return response.choices[0].message.content
 
 # Interface Streamlit
 st.title("Análise de Correlação de Índices do IPEA")
