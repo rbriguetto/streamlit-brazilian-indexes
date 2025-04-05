@@ -93,7 +93,7 @@ st.markdown(f"### Coeficiente de correlação: **{correlation:.2f}**")
 
 # Gerar insights com Gemini
 if st.button("Gerar Insights com IA"):
-    context = f"Você é um economista especialista em análise de dados. Os índices analisados são: {description_map[index1]} ({index1}) e {description_map[index2]} ({index2})."
+    context = f"Você é um economista especialista em análise de dados. Os índices analisados são: {description_map[index1]} ({index1}) e {description_map[index2]} ({index2}). Para cada índice, forneça uma breve descrição sobre seu significado e impacto econômico antes de analisar a correlação."
     prompt = f"A correlação entre os índices {description_map[index1]} ({index1}) e {description_map[index2]} ({index2}) foi de {correlation:.2f}. O que isso pode indicar economicamente?"
     insight = get_insights(prompt, context)
     st.subheader("Insights da IA")
