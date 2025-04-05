@@ -3,12 +3,12 @@ import ipeadatapy as ipea
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import openai
+import google.generativeai as genai
 import os
 from functools import lru_cache
 
-# Configurar API da OpenAI
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Configurar API do Gemini
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Função para listar índices disponíveis no IPEA
 @st.cache_data
@@ -25,18 +25,12 @@ def get_ipea_data(series_code):
     data['Date'] = pd.to_datetime(data['Date'])
     return data.set_index('Date')
 
-# Função para gerar insights com OpenAI (com cache)
+# Função para gerar insights com Gemini (com cache)
 @lru_cache(maxsize=10)
 def get_insights(text_prompt, context):
-    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": context},
-            {"role": "user", "content": text_prompt}
-        ]
-    )
-    return response.choices[0].message.content
+    model = genai.GenerativeModel("gemini-pro")
+    response = model.generate_content(f"{context}\n{text_prompt}")
+    return response.text
 
 # Interface Streamlit
 st.title("Análise de Correlação de Índices do IPEA")
@@ -97,7 +91,7 @@ st.pyplot(fig3)
 correlation = merged_data.corr().iloc[0, 1]
 st.markdown(f"### Coeficiente de correlação: **{correlation:.2f}**")
 
-# Gerar insights com OpenAI
+# Gerar insights com Gemini
 if st.button("Gerar Insights com IA"):
     context = f"Você é um economista especialista em análise de dados. Os índices analisados são: {description_map[index1]} ({index1}) e {description_map[index2]} ({index2})."
     prompt = f"A correlação entre os índices {description_map[index1]} ({index1}) e {description_map[index2]} ({index2}) foi de {correlation:.2f}. O que isso pode indicar economicamente?"
