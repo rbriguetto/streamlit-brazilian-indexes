@@ -32,7 +32,7 @@ def get_insights(text_prompt):
     client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     response = client.chat.completions.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-mini",
         messages=[{"role": "system", "content": "Você é um economista especialista em análise de dados."},
                   {"role": "user", "content": text_prompt}]
     )
