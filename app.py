@@ -28,7 +28,7 @@ def get_ipea_data(series_code):
 # Função para gerar insights com Gemini (com cache)
 @lru_cache(maxsize=10)
 def get_insights(text_prompt, context):
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-2.0-flash-lite-001")
     response = model.generate_content(f"{context}\n{text_prompt}")
     return response.text
 
