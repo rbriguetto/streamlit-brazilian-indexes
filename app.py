@@ -113,7 +113,7 @@ st.markdown(f"### Coeficiente de correlação: **{correlation:.2f}**")
 
 # Gerar insights com Gemini
 if st.button("Gerar Insights com IA"):
-    prompt = f"A correlação entre os índices {description_map[index1]} ({index1}) e {description_map[index2]} ({index2}) foi de {correlation:.2f}. O que isso pode indicar economicamente?"
+    prompt = f"A correlação entre os índices {index1} e {index2} foi de {correlation:.2f}. Preciso que dê uma breve descrição do que são esses indices e o que essa correção pode indicar economicamente. Não seja muito técnico, mas seja claro e objetivo"
     insight = get_insights(prompt)
     st.subheader("Insights da IA")
     st.write(insight)
